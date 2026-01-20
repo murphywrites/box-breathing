@@ -1,144 +1,166 @@
-:root
-  --box-duration: 16s
-
-  --dot-size: 2rem
-
-  --color-lighter: #9ab
-  --color-light: #678
-  --color-dark: #945
-  --color-darker: #234
-  --color-darkest: #123
-
-  --color-accent: dodgerblue
-
-  font-size: 112.5%
+:root {
+  --box-duration: 16s;
+  --dot-size: 2rem;
+  --color-lighter: #9ab;
+  --color-light: #678;
+  --color-dark: #945;
+  --color-darker: #234;
+  --color-darkest: #123;
+  --color-accent: dodgerblue;
+  font-size: 112.5%;
+}
 
 *,
-*::before, *::after
-  box-sizing: border-box
-  margin: 0
-  padding: 0
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-body
-  padding: 1rem
-  font:
-    family: sans-serif
-    size: 100%
-  line-height: 1.8
-  background:
-    color: var( --color-darker )
-    image: linear-gradient( var( --color-darker ), var( --color-darkest ) )
-  color: var( --color-lighter )
-  
-article
-  max-inline-size: 60ch
-  margin-inline: auto
-  
-h1
-  font:
-    size: 12vmin
-    weight: 900
-  line-height: 1.2
-  
-p
-  margin-block-start: 1rem
-  
-  &:last-of-type
-    color: var( --color-light )
-  
-ul
-  margin-block-start: 1rem
-  
-li
-  margin-inline-start: 1rem
-  
-a
-  color: inherit
-  
-  &:hover
-    text-decoration: none
+body {
+  padding: 1rem;
+  font-family: sans-serif;
+  font-size: 100%;
+  line-height: 1.8;
+  background-color: var(--color-darker);
+  background-image: linear-gradient(var(--color-darker), var(--color-darkest));
+  color: var(--color-lighter);
+}
 
-.box-container
-  margin-block: 14vmin
-  position: relative
-  display: flex
-  align-items: center
-  justify-content: center
-  
-  &::after
-    content: 'inhale'
-    position: absolute
-    text-align: center
-    font:
-      size: 24vmin
-      weight: 900
-    text-transform: uppercase
-    color: var( --color-accent )
-    will-change: content
-    animation: label var( --box-duration ) linear infinite, scale var( --box-duration ) linear infinite
-  
-  
-.box
-  inline-size: 50vmin
-  block-size: 50vmin
-  margin-inline: auto
-  position: relative
-  border:
-    width: 1px
-    style: solid
-    image: linear-gradient( var( --color-light ), var( --color-dark ) ) 1
-  will-change: transform
-  animation: rotate 3s 1s ease-in-out forwards
-  
-  
-  &::before
-    content: 'a'
-    display: block
-    inline-size: var( --dot-size )
-    block-size: var( --dot-size )
-    position: absolute
-    inset:
-      inline-start: calc( var( --dot-size ) * -0.5 )
-      block-start: calc( var( --dot-size ) * -0.5 )
-    border-radius: 50%
-    background-color: var( --color-accent )
-    will-change: inset, transform, opacity
-    animation: box var( --box-duration ) linear infinite, scale var( --box-duration ) linear infinite
-    
-@keyframes rotate
-  to
-    transform: rotate3d( 0, 0, 1, 45deg )
-    
-@keyframes box
-  0%, 100%
-    inset:
-      inline-start: calc( var( --dot-size ) * -0.5 )
-      block-start: calc( var( --dot-size ) * -0.5 )
-  25%
-    inset:
-      inline-start: calc( 50vmin - ( var( --dot-size ) * 0.5 ) )
-      block-start: -1rem
-  50%
-    inset:
-      inline-start: calc( 50vmin - ( var( --dot-size ) * 0.5 ) )
-      block-start: calc( 50vmin - ( var( --dot-size ) * 0.5 ) )
-  75%
-    inset:
-      inline-start: -1rem
-      block-start: calc( 50vmin - ( var( --dot-size ) * 0.5 ) )
-    
-@keyframes scale
-  0%, 75%, 100%
-    transform: scale3d( 0.5, 0.5, 1 )
-    opacity: 0.8
-  25%, 50%
-    transform: scale3d( 1, 1, 1 )
-    opacity: 0.4
-  
-@keyframes label
-  0%, 25%
-    content: 'inhale mf'
-  25.001%, 50%, 75.001%, 100%
-    content: 'hold mf'
-  50.001%, 75%
-    content: 'exhale mf'
+article {
+  max-inline-size: 60ch;
+  margin-inline: auto;
+}
+
+h1 {
+  font-size: 12vmin;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+p {
+  margin-block-start: 1rem;
+}
+
+p:last-of-type {
+  color: var(--color-light);
+}
+
+ul {
+  margin-block-start: 1rem;
+}
+
+li {
+  margin-inline-start: 1rem;
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.box-container {
+  margin-block: 14vmin;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box-container::after {
+  content: 'inhale';
+  position: absolute;
+  text-align: center;
+  font-size: 24vmin;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  will-change: content;
+  animation: label var(--box-duration) linear infinite, scale var(--box-duration) linear infinite;
+}
+
+.box {
+  inline-size: 50vmin;
+  block-size: 50vmin;
+  margin-inline: auto;
+  position: relative;
+  border: 1px solid;
+  border-image: linear-gradient(var(--color-light), var(--color-dark)) 1;
+  will-change: transform;
+  animation: rotate 3s 1s ease-in-out forwards;
+}
+
+.box::before {
+  content: 'a';
+  display: block;
+  inline-size: var(--dot-size);
+  block-size: var(--dot-size);
+  position: absolute;
+  inset-inline-start: calc(var(--dot-size) * -0.5);
+  inset-block-start: calc(var(--dot-size) * -0.5);
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  will-change: inset, transform, opacity;
+  animation: box var(--box-duration) linear infinite, scale var(--box-duration) linear infinite;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate3d(0, 0, 1, 45deg);
+  }
+}
+
+@keyframes box {
+    0%,
+   100% {
+     inset-inline-start: calc(50vmin - (var(--dot-size) * 0.5));
+     inset-block-start: calc(50vmin - (var(--dot-size) * 0.5));
+   }
+   25% {
+       inset-inline-start: calc(50vmin - (var(--dot-size) * 0.5));
+       inset-block-start: -1rem;
+    }
+    50% {
+       inset-inline-start: calc(var(--dot-size) * -0.5);
+       inset-block-start: calc(var(--dot-size) * -0.5);
+     }
+  75% {
+    inset-inline-start: -1rem;
+    inset-block-start: calc(50vmin - (var(--dot-size) * 0.5));
+  }
+}
+
+@keyframes scale {
+  0%,
+  75%,
+  100% {
+    transform: scale3d(0.5, 0.5, 1);
+    opacity: 0.8;
+  }
+  25%,
+  50% {
+    transform: scale3d(1, 1, 1);
+    opacity: 0.4;
+  }
+}
+
+@keyframes label {
+  0%,
+  25% {
+    content: 'inhale mf';
+  }
+  25.001%,
+  50%,
+  75.001%,
+  100% {
+    content: 'hold mf';
+  }
+  50.001%,
+  75% {
+    content: 'exhale mf';
+  }
+}
