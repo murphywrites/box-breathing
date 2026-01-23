@@ -95,17 +95,20 @@ a:hover {
 }
 
 .box::before {
-  content: 'a';
+  content: '🐢';
   display: block;
   inline-size: var(--dot-size);
   block-size: var(--dot-size);
   position: absolute;
   inset-inline-start: calc(var(--dot-size) * -0.5);
   inset-block-start: calc(var(--dot-size) * -0.5);
-  border-radius: 50%;
-  background-color: var(--color-accent);
+  border-radius: 0;
+  background-color: transparent;
+  font-size: var(--dot-size);
+  text-align: center;
+  line-height: var(--dot-size);
   will-change: inset, transform, opacity;
-  animation: box var(--box-duration) linear infinite, scale var(--box-duration) linear infinite;
+  animation: box var(--box-duration) linear infinite, rotate-turtle var(--box-duration) linear infinite;
 }
 
 @keyframes rotate {
@@ -151,16 +154,376 @@ a:hover {
 @keyframes label {
   0%,
   25% {
-    content: 'inhale!';
+    content: 'inhale';
   }
   25.001%,
   50%,
   75.001%,
   100% {
-    content: 'hold!';
+    content: 'hold';
   }
   50.001%,
   75% {
-    content: 'exhale!';
+    content: 'exhale';
   }
+}
+
+@keyframes rotate-turtle {
+  0% { 
+    transform: scale3d(1, 1, 1) rotate(-270deg); 
+  }
+  25% {
+    transform: scale3d(5, 5, 1) rotate(-360deg);
+  }
+  25.001% {
+    transform: scale3d(5, 5, 1) rotate(0deg);
+  }
+  50% {
+    transform: scale3d(5, 5, 1) rotate(-90deg);
+  }
+  75% {
+    transform: scale3d(1, 1, 1) rotate(-180deg);
+  }
+  100% {
+    transform: scale3d(1, 1, 1) rotate(-270deg);
+  }
+}
+
+/* Navbar and Tab Styles */
+.navbar {
+  background: linear-gradient(var(--color-light), var(--color-dark));
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-dark);
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.nav-tab {
+  background: transparent;
+  border: 2px solid var(--color-accent);
+  color: var(--color-light);
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.nav-tab:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.nav-tab.active {
+  background: var(--color-accent);
+  color: var(--color-dark);
+  font-weight: bold;
+}
+
+.tab-content {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tab-pane {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* Breathing Counter Styles */
+.breathing-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: linear-gradient(var(--color-light), var(--color-dark));
+  border: 2px solid var(--color-accent);
+  border-radius: 1rem;
+}
+
+.breathing-counter {
+  text-align: center;
+}
+
+#breath-count {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--color-accent);
+  display: block;
+  line-height: 1;
+}
+
+.counter-label {
+  font-size: 1rem;
+  color: var(--color-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.breathing-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.breathing-btn {
+  background: var(--color-accent);
+  border: none;
+  color: var(--color-dark);
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.breathing-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.breathing-btn:active {
+  transform: translateY(0);
+}
+
+.breathing-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Breathing Logs Styles */
+.breathing-logs {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: linear-gradient(var(--color-light), var(--color-dark));
+  border: 2px solid var(--color-accent);
+  border-radius: 1rem;
+}
+
+.breathing-logs h3 {
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+#logs-container {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.log-entry {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.log-entry:last-child {
+  margin-bottom: 0;
+}
+
+.log-cycles {
+  color: var(--color-accent);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.log-time {
+  color: var(--color-light);
+  font-size: 0.9rem;
+}
+
+.no-logs {
+  color: var(--color-light);
+  text-align: center;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Progressive Muscle Relaxation Styles */
+.pmr-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.pmr-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.pmr-btn {
+  background: var(--color-accent);
+  border: none;
+  color: var(--color-dark);
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pmr-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pmr-btn:active {
+  transform: translateY(0);
+}
+
+.pmr-display {
+  background: linear-gradient(var(--color-light), var(--color-dark));
+  border: 2px solid var(--color-accent);
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.pmr-counter {
+  margin-bottom: 2rem;
+}
+
+#pmr-timer {
+  font-size: 4rem;
+  font-weight: bold;
+  color: var(--color-accent);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.pmr-label {
+  font-size: 1.2rem;
+  color: var(--color-light);
+}
+
+.pmr-active-area h2 {
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.pmr-active-area p {
+  color: var(--color-light);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Problem Dissolver Styles */
+.pd-container {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  height: 600px;
+}
+
+.pd-input-section {
+  flex: 0 0 300px;
+}
+
+.pd-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+.pd-input-wrapper label {
+  color: var(--color-accent);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+#problem-input {
+  flex: 1;
+  background: linear-gradient(var(--color-light), var(--color-dark));
+  border: 2px solid var(--color-accent);
+  border-radius: 1rem;
+  padding: 1rem;
+  color: var(--color-light);
+  font-size: 1rem;
+  resize: none;
+  font-family: inherit;
+}
+
+#problem-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#problem-input:focus {
+  outline: none;
+  border-color: var(--color-light);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+#submit-problem {
+  background: var(--color-accent);
+  border: none;
+  color: var(--color-dark);
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#submit-problem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#submit-problem:active {
+  transform: translateY(0);
+}
+
+.pd-canvas-section {
+  flex: 1;
+  background: linear-gradient(var(--color-light), var(--color-dark));
+  border: 2px solid var(--color-accent);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#dissolve-canvas {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
 }

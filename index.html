@@ -7,35 +7,429 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<article>
-  <header>
-    <h1>Box Breathing</h1>
-  </header>
+  <nav class="navbar">
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-tab="breathing">Box Breathing</button>
+      <button class="nav-tab" data-tab="meditation">Progressive Muscle Relaxation</button>
+      <button class="nav-tab" data-tab="problem-dissolver">Problem Dissolver</button>
+    </div>
+  </nav>
 
-  <main>
-    <figure role="presentation none">
-      <div class="box-container">
-        <div class="box"></div>
-      </div>
-    </figure>
-      
-    <p>Box breathing is a powerful but simple relaxation technique that aims to return breathing to its normal rhythm after a stressful experience. It involves breathing in and out and holding the breath. It may help clear the mind, relax the body, and improve focus.</p>
-    
-    <p>Box breathing involves four basic steps, each lasting 4 seconds:</p>
-    
-    <ul>
-      <li>breathing in</li>
-      <li>holding the breath</li>
-      <li>breathing out</li>
-      <li>holding the breath</li>
-    </ul>
-      
-    <p>Box breathing, also known as resetting the breath or four-square breathing, is easy to do, quick to learn, and can be highly effective in stressful situations.</p>
-    
-    <p>People with high stress jobs, such as soldiers and police officers, often use box breathing when their bodies are in fight-or-flight mode. This technique is also relevant for anyone interested in re-centering themselves or improving their concentration.</p>
-    
-    <p><i>(Source: <a href="https://www.medicalnewstoday.com/articles/321805" rel="external">https://www.medicalnewstoday.com/articles/321805</a>)</i></p>
+  <main class="tab-content">
+    <div class="tab-pane active" id="breathing">
+      <article>
+        <header>
+          <h1>Box Breathing</h1>
+        </header>
+
+        <div class="breathing-controls">
+          <div class="breathing-counter">
+            <span id="breath-count">0</span>
+            <span class="counter-label">cycles</span>
+          </div>
+          <div class="breathing-buttons">
+            <button id="start-breathing" class="breathing-btn">Start</button>
+            <button id="reset-breathing" class="breathing-btn">Reset</button>
+          </div>
+        </div>
+
+        <div class="breathing-logs">
+          <h3>Session History</h3>
+          <div id="logs-container">
+            <p class="no-logs">No sessions recorded yet</p>
+          </div>
+        </div>
+
+        <figure role="presentation none">
+          <div class="box-container">
+            <div class="box"></div>
+          </div>
+        </figure>
+          
+        <p>Box breathing is a simple but powerful relaxation technique that aims to return breathing to its normal rhythm after a stressful experience. It involves breathing in and out and holding the breath. It may help clear the mind, relax the body, and improve focus.</p>
+        
+        <p>Box breathing involves four basic steps, each lasting 4 seconds:</p>
+        
+        <ul>
+          <li>breathing in</li>
+          <li>holding the breath</li>
+          <li>breathing out</li>
+          <li>holding the breath</li>
+        </ul>
+          
+        <p>Box breathing, also known as resetting the breath or four-square breathing, is easy to do, quick to learn, and can be highly effective in stressful situations.</p>
+        
+        <p>People with high stress jobs, such as soldiers and police officers, often use box breathing when their bodies are in fight-or-flight mode. This technique is also relevant for anyone interested in re-centering themselves or improving their concentration.</p>
+        
+        <p><i>(Source: <a href="https://www.medicalnewstoday.com/articles/321805" rel="external">https://www.medicalnewstoday.com/articles/321805</a>)</i></p>
+      </article>
+    </div>
+
+    <div class="tab-pane" id="meditation">
+      <article>
+        <header>
+          <h1>Progressive Muscle Relaxation</h1>
+        </header>
+        
+        <div class="pmr-container">
+          <div class="pmr-controls">
+            <button id="start-pmr" class="pmr-btn">Start</button>
+            <button id="reset-pmr" class="pmr-btn">Reset</button>
+          </div>
+          
+          <div class="pmr-display">
+            <div class="pmr-counter">
+              <span id="pmr-timer">10</span>
+              <span class="pmr-label">seconds</span>
+            </div>
+            
+            <div class="pmr-active-area">
+              <h2 id="pmr-area">Ready to begin</h2>
+              <p id="pmr-instruction">Press Start to begin Progressive Muscle Relaxation</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="tab-pane" id="problem-dissolver">
+      <article>
+        <header>
+          <h1>Problem Dissolver</h1>
+        </header>
+        
+        <div class="pd-container">
+          <div class="pd-input-section">
+            <div class="pd-input-wrapper">
+              <label for="problem-input">Enter your problem:</label>
+              <textarea id="problem-input" placeholder="Type your problem here and watch it dissolve..."></textarea>
+              <button id="submit-problem">Dissolve Problem</button>
+            </div>
+          </div>
+          
+          <div class="pd-canvas-section">
+            <canvas id="dissolve-canvas"></canvas>
+          </div>
+        </div>
+      </article>
+    </div>
   </main>
-</article>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tab functionality
+      const tabs = document.querySelectorAll('.nav-tab');
+      const panes = document.querySelectorAll('.tab-pane');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const targetTab = this.dataset.tab;
+
+          // Remove active class from all tabs and panes
+          tabs.forEach(t => t.classList.remove('active'));
+          panes.forEach(p => p.classList.remove('active'));
+
+          // Add active class to clicked tab and corresponding pane
+          this.classList.add('active');
+          document.getElementById(targetTab).classList.add('active');
+        });
+      });
+
+      // Progressive Muscle Relaxation functionality
+      const areas = [
+        { name: 'Toes', instruction: 'Tense your toes tightly, then release and feel the relaxation' },
+        { name: 'Feet', instruction: 'Point your feet downward, tense the muscles, then relax completely' },
+        { name: 'Legs', instruction: 'Squeeze your thigh and calf muscles, hold, then release the tension' },
+        { name: 'Lower Back', instruction: 'Arch your lower back slightly, hold the tension, then relax' },
+        { name: 'Arms', instruction: 'Make fists and tense your arm muscles, then let go completely' },
+        { name: 'Shoulders', instruction: 'Shrug your shoulders up toward your ears, hold, then release' },
+        { name: 'Mouth', instruction: 'Clench your jaw and press lips together, then relax your face' },
+        { name: 'Cheeks', instruction: 'Smile widely to tense your cheek muscles, then release' },
+        { name: 'Eyes', instruction: 'Squeeze your eyes shut tightly, then allow them to relax' },
+        { name: 'Forehead', instruction: 'Frown and wrinkle your forehead, then smooth it out completely' }
+      ];
+
+      let currentAreaIndex = -1;
+      let timeRemaining = 10;
+      let timerInterval = null;
+      let isRunning = false;
+
+      const startBtn = document.getElementById('start-pmr');
+      const resetBtn = document.getElementById('reset-pmr');
+      const timerDisplay = document.getElementById('pmr-timer');
+      const areaDisplay = document.getElementById('pmr-area');
+      const instructionDisplay = document.getElementById('pmr-instruction');
+
+      function startPMR() {
+        if (isRunning) return;
+        
+        isRunning = true;
+        startBtn.textContent = 'Running...';
+        startBtn.disabled = true;
+        
+        currentAreaIndex = 0;
+        timeRemaining = 10;
+        updateDisplay();
+        
+        timerInterval = setInterval(() => {
+          timeRemaining--;
+          timerDisplay.textContent = timeRemaining;
+          
+          if (timeRemaining <= 0) {
+            currentAreaIndex++;
+            if (currentAreaIndex >= areas.length) {
+              stopPMR();
+              areaDisplay.textContent = 'Complete!';
+              instructionDisplay.textContent = 'Great job! You have completed Progressive Muscle Relaxation.';
+            } else {
+              timeRemaining = 10;
+              updateDisplay();
+            }
+          }
+        }, 1000);
+      }
+
+      function stopPMR() {
+        isRunning = false;
+        startBtn.textContent = 'Start';
+        startBtn.disabled = false;
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+      }
+
+      function resetPMR() {
+        stopPMR();
+        currentAreaIndex = -1;
+        timeRemaining = 10;
+        timerDisplay.textContent = timeRemaining;
+        areaDisplay.textContent = 'Ready to begin';
+        instructionDisplay.textContent = 'Press Start to begin Progressive Muscle Relaxation';
+      }
+
+      function updateDisplay() {
+        if (currentAreaIndex >= 0 && currentAreaIndex < areas.length) {
+          const area = areas[currentAreaIndex];
+          areaDisplay.textContent = area.name;
+          instructionDisplay.textContent = area.instruction;
+        }
+      }
+
+      startBtn.addEventListener('click', startPMR);
+      resetBtn.addEventListener('click', resetPMR);
+
+      // Problem Dissolver functionality
+      class DissolvingText {
+        constructor(canvas, text) {
+          this.canvas = canvas;
+          this.ctx = canvas.getContext('2d');
+          this.text = text;
+          this.x = canvas.width / 2;
+          this.y = canvas.height / 2;
+          this.fontSize = Math.min(60, canvas.width / 10);
+          this.opacity = 1;
+          this.scale = 1;
+          this.rotation = 0;
+          this.velocityY = -0.5;
+          this.velocityX = (Math.random() - 0.5) * 0.5;
+          this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+          this.life = 1;
+        }
+
+        update() {
+          this.life -= 0.005;
+          this.opacity = this.life;
+          this.scale = 0.3 + (this.life * 0.7);
+          this.y += this.velocityY;
+          this.x += this.velocityX;
+          this.rotation += this.rotationSpeed;
+          this.velocityY += 0.01;
+          
+          return this.life > 0;
+        }
+
+        draw() {
+          this.ctx.save();
+          this.ctx.globalAlpha = this.opacity;
+          this.ctx.translate(this.x, this.y);
+          this.ctx.rotate(this.rotation);
+          this.ctx.scale(this.scale, this.scale);
+          this.ctx.font = `bold ${this.fontSize}px system-ui`;
+          this.ctx.fillStyle = '#FFD700';
+          this.ctx.textAlign = 'center';
+          this.ctx.textBaseline = 'middle';
+          this.ctx.fillText(this.text, 0, 0);
+          this.ctx.restore();
+        }
+      }
+
+      const problemInput = document.getElementById('problem-input');
+      const submitButton = document.getElementById('submit-problem');
+      const canvas = document.getElementById('dissolve-canvas');
+      const ctx = canvas.getContext('2d');
+      let dissolvingTexts = [];
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        dissolvingTexts = dissolvingTexts.filter(text => {
+          const alive = text.update();
+          if (alive) {
+            text.draw();
+          }
+          return alive;
+        });
+        
+        requestAnimationFrame(animate);
+      }
+
+      function dissolveProblem() {
+        const text = problemInput.value.trim();
+        if (!text) return;
+        
+        dissolvingTexts.push(new DissolvingText(canvas, text));
+        problemInput.value = '';
+      }
+
+      submitButton.addEventListener('click', dissolveProblem);
+      problemInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.ctrlKey) {
+          dissolveProblem();
+        }
+      });
+
+      // Initialize canvas
+      resizeCanvas();
+      animate();
+      
+      window.addEventListener('resize', resizeCanvas);
+
+      // Breathing Counter functionality
+      let breathCount = 0;
+      let isBreathingActive = false;
+      let breathingInterval = null;
+      let sessionStartTime = null;
+      
+      const breathCountDisplay = document.getElementById('breath-count');
+      const startBreathingBtn = document.getElementById('start-breathing');
+      const resetBreathingBtn = document.getElementById('reset-breathing');
+      const logsContainer = document.getElementById('logs-container');
+      
+      function loadLogs() {
+        const logs = localStorage.getItem('breathingLogs');
+        return logs ? JSON.parse(logs) : [];
+      }
+      
+      function saveLogs(logs) {
+        localStorage.setItem('breathingLogs', JSON.stringify(logs));
+      }
+      
+      function displayLogs() {
+        const logs = loadLogs();
+        
+        if (logs.length === 0) {
+          logsContainer.innerHTML = '<p class="no-logs">No sessions recorded yet</p>';
+          return;
+        }
+        
+        logsContainer.innerHTML = logs
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+          .slice(0, 10) // Show last 10 sessions
+          .map(log => `
+            <div class="log-entry">
+              <span class="log-cycles">${log.cycles} cycles</span>
+              <span class="log-time">${formatTime(log.timestamp)}</span>
+            </div>
+          `).join('');
+      }
+      
+      function formatTime(timestamp) {
+        const date = new Date(timestamp);
+        return date.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+      
+      function logSession() {
+        if (breathCount === 0) return; // Don't log empty sessions
+        
+        const logs = loadLogs();
+        const session = {
+          cycles: breathCount,
+          timestamp: new Date().toISOString(),
+          duration: sessionStartTime ? Date.now() - sessionStartTime : 0
+        };
+        
+        logs.push(session);
+        saveLogs(logs);
+        displayLogs();
+      }
+      
+      function startBreathing() {
+        if (isBreathingActive) return;
+        
+        isBreathingActive = true;
+        sessionStartTime = Date.now();
+        startBreathingBtn.textContent = 'Stop';
+        startBreathingBtn.disabled = false;
+        
+        // Count breaths based on the box animation cycle
+        // Each complete box cycle = 1 breath (16 seconds total)
+        breathingInterval = setInterval(() => {
+          breathCount++;
+          breathCountDisplay.textContent = breathCount;
+        }, 16000); // 16 seconds per complete breathing cycle
+      }
+      
+      function stopBreathing() {
+        if (!isBreathingActive) return;
+        
+        isBreathingActive = false;
+        startBreathingBtn.textContent = 'Start';
+        startBreathingBtn.disabled = false;
+        
+        if (breathingInterval) {
+          clearInterval(breathingInterval);
+          breathingInterval = null;
+        }
+        
+        // Log the session when stopped
+        logSession();
+      }
+      
+      function resetBreathing() {
+        stopBreathing();
+        breathCount = 0;
+        breathCountDisplay.textContent = breathCount;
+        sessionStartTime = null;
+      }
+      
+      startBreathingBtn.addEventListener('click', function() {
+        if (isBreathingActive) {
+          stopBreathing();
+        } else {
+          startBreathing();
+        }
+      });
+      
+      resetBreathingBtn.addEventListener('click', resetBreathing);
+      
+      // Initialize logs display
+      displayLogs();
+      
+      // Auto-start breathing counter on page load
+      startBreathing();
+    });
+  </script>
 </body>
 </html>
